@@ -1,0 +1,17 @@
+service: ms-${self:custom.serviceName}
+frameworkVersion: '3'
+useDotenv: true
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+
+custom:
+  serviceName: products
+  contextPath: api/v1/${self:custom.serviceName}
+  baseApi: ${self:custom.contextPath}
+
+plugins:
+  - serverless-esbuild
+  - serverless-offline
+  - serverless-dotenv-plugin
