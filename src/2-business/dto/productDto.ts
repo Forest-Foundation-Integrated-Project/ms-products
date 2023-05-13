@@ -6,4 +6,4 @@ export interface InputCreateProductDto {
   name: string
 }
 
-export type OutputCreateUserDto = Either<IError, IProductEntity>
+export type OutputCreateProductDto = Either<IError, IProductEntity>
