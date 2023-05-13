@@ -21,6 +21,17 @@ custom:
   serviceName: products
   contextPath: api/v1/${self:custom.serviceName}
   baseApi: ${self:custom.contextPath}
+  funcDir: src/4-framework/functions
+functions:
+  createProduct:
+    handler: ${self:custom.funcDir}/createProduct.handler
+    events:
+      - http:
+          path: ${self:custom.baseApi}/
+          method: post
+          cors:
+            origin: '*'
+            headers: '*'
 
 plugins:
   - serverless-esbuild
