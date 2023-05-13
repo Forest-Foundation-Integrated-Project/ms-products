@@ -1,7 +1,7 @@
 import { IProductEntity } from "../../1-domain/entities/productEntity"
 
-export const IUserRepositoryToken = Symbol.for('IUserRepository')
+export const IProductRepositoryToken = Symbol.for('IProductRepository')
 
-export interface IUserRepository {
+export interface IProductRepository {
   create(productEntity: IProductEntity): Promise<IProductEntity>
 }
