@@ -32,6 +32,16 @@ functions:
           cors:
             origin: '*'
             headers: '*'
+  viewProduct:
+    handler: ${self:custom.funcDir}/viewProduct.handler
+    events:
+      - http:
+          path: ${self:custom.baseApi}/{product_id}
+          method: get
+          cors:
+            origin: '*'
+            headers: '*'
+            
 
 plugins:
   - serverless-esbuild

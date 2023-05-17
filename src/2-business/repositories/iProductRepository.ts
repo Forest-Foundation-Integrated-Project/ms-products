@@ -4,4 +4,5 @@ export const IProductRepositoryToken = Symbol.for('IProductRepository')
 
 export interface IProductRepository {
   create(productEntity: IProductEntity): Promise<IProductEntity>
+  view(product_id: string): Promise<IProductEntity>
 }

@@ -17,4 +17,10 @@ export class ProductRepository implements IProductRepository {
 
     return createResponse.dataValues
   }
+
+  async view(product_id: string): Promise<IProductEntity> {
+    const viewResponse = await this.productModel.findByPk(product_id)
+
+    return viewResponse?.dataValues
+  }
 }
