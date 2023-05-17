@@ -6,4 +6,9 @@ export interface InputCreateProductDto {
   name: string
 }
 
+export interface InputViewProductDto {
+  product_id: string
+}
+
 export type OutputCreateProductDto = Either<IError, IProductEntity>
+export type OutputViewProductDto = Either<IError, IProductEntity>

@@ -2,12 +2,11 @@ import { injectable, inject } from 'inversify'
 
 import { left, right } from '../../4-framework/shared/either'
 import { AbstractOperator } from './abstractOperator'
-import { InputCreateProductDto, OutputCreateProductDto } from '../../2-business/dto/productDto'
 import { CreateProductUseCase } from '../../2-business/useCases/createProductUseCase'
 import { InputCreateProduct, OutputCreateProduct } from '../serializers/inputCreateProduct'
 
 @injectable()
-export class CreateProductOperator extends AbstractOperator<InputCreateProductDto, OutputCreateProductDto> {
+export class CreateProductOperator extends AbstractOperator<InputCreateProduct, OutputCreateProduct> {
   public constructor(@inject(CreateProductUseCase) private createProductUseCase: CreateProductUseCase) {
     super()
   }
