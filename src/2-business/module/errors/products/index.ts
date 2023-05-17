@@ -9,3 +9,15 @@ export const ProductViewingFailed = {
   message: 'Product viewing failed',
   shortMessage: 'ProductViewingFailed'
 }
+
+export const ProductRemovalFailed = {
+  code: 'USC-003',
+  message: 'Product removal failed',
+  shortMessage: 'ProductRemovalFailed'
+}
+
+export const ProductNotFound = {
+  code: 'USC-005',
+  message: 'Product not found',
+  shortMessage: 'productNotFound'
+}
