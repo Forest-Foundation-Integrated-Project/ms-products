@@ -41,6 +41,15 @@ functions:
           cors:
             origin: '*'
             headers: '*'
+  removeProduct:
+    handler: ${self:custom.funcDir}/removeProduct.handler
+    events:
+      - http:
+          path: ${self:custom.baseApi}/{product_id}
+          method: delete
+          cors:
+            origin: '*'
+            headers: '*'
             
 
 plugins:
