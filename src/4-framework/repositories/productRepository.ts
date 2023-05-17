@@ -23,4 +23,12 @@ export class ProductRepository implements IProductRepository {
 
     return viewResponse?.dataValues
   }
+
+  async remove(remove_id: string): Promise<boolean> {
+    const removeResponse = await this.productModel.destroy({
+      where: {product_id: remove_id}
+    });
+
+    return !!removeResponse
+}
 }
