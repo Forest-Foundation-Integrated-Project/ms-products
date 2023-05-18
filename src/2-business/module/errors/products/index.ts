@@ -16,6 +16,12 @@ export const ProductRemovalFailed = {
   shortMessage: 'ProductRemovalFailed'
 }
 
+export const ProductUpdateFailed = {
+  code: 'USC-004',
+  message: 'Product update failed',
+  shortMessage: 'ProductUpdateFailed'
+}
+
 export const ProductNotFound = {
   code: 'USC-005',
   message: 'Product not found',
