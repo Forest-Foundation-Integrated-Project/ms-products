@@ -14,6 +14,12 @@ export interface InputRemoveProductDto {
   product_id: string
 }
 
+export interface InputUpdateProductDto {
+  product_id: string
+  name: string
+}
+
 export type OutputCreateProductDto = Either<IError, IProductEntity>
 export type OutputViewProductDto = Either<IError, IProductEntity>
 export type OutputRemoveProductDto = Either<IError, boolean>
+export type OutputUpdateProductDto = Either<IError, IProductEntity>
