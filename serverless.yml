@@ -50,6 +50,15 @@ functions:
           cors:
             origin: '*'
             headers: '*'
+  updateProduct:
+    handler: ${self:custom.funcDir}/updateProduct.handler
+    events:
+      - http:
+          path: ${self:custom.baseApi}/{product_id}
+          method: put
+          cors:
+            origin: '*'
+            headers: '*'
             
 
 plugins:
