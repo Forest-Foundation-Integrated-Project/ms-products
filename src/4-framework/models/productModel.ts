@@ -15,6 +15,22 @@ ProductModel.init(
       type: DataTypes.STRING,
       allowNull: false,
     },
+    description: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    seller_id: {
+      type: DataTypes.UUIDV4,
+      allowNull: false,
+    },
+    price: {
+      type: DataTypes.BIGINT,
+      allowNull: false,
+    },
+    tag_id: {
+      type: DataTypes.UUIDV4,
+      allowNull: false,
+    },
   },
   {
     sequelize,
