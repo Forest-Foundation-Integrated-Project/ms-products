@@ -14,7 +14,11 @@ export class UpdateProductUseCase implements IUseCase<InputUpdateProductDto, Out
     try {
       const product = await this.productRepository.update({
         product_id: input.product_id,
-        name: input.name
+        name: input.name,
+        description: input.description,
+        seller_id: input.seller_id,
+        price: input.price,
+        tag_id: input.tag_id
       })
 
       if (!product) return left (ProductNotFound)

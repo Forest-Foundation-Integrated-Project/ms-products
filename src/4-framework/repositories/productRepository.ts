@@ -37,7 +37,11 @@ export class ProductRepository implements IProductRepository {
 
   async update(productEntity: InputUpdateProductDto): Promise<IProductEntity> {
     await this.productModel.update(
-      {name: productEntity.name},
+      { name: productEntity.name,
+        description: productEntity.description,
+        seller_id: productEntity.seller_id,
+        price: productEntity.price,
+        tag_id: productEntity.tag_id},
       {where: {product_id: productEntity.product_id}}
       )
 

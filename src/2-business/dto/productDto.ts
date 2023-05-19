@@ -18,7 +18,11 @@ export interface InputRemoveProductDto {
 
 export interface InputUpdateProductDto {
   product_id: string
-  name: string
+  name?: string
+  description?: string
+  seller_id?: string
+  price?: bigint
+  tag_id?: string
 }
 
 export type OutputCreateProductDto = Either<IError, IProductEntity>
