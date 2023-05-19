@@ -11,7 +11,11 @@ export class ProductRepository implements IProductRepository {
   async create(productEntity: IProductEntity): Promise<IProductEntity> {
     const createResponse = await this.productModel.create({
       product_id: productEntity.product_id,
-      name: productEntity.name
+      name: productEntity.name,
+      description: productEntity.description,
+      seller_id: productEntity.seller_id,
+      price: productEntity.price,
+      tag_id: productEntity.tag_id
     })
 
     return createResponse.dataValues

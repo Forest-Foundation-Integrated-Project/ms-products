@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsString } from 'class-validator'
+import { IsNotEmpty, IsNumber, IsString } from 'class-validator'
 
 import { Either } from '../../4-framework/shared/either'
 import { IError } from '../../4-framework/shared/iError'
@@ -9,6 +9,14 @@ export class InputCreateProduct extends Validatable<InputCreateProduct> {
   @IsNotEmpty()
   @IsString()
   name!: string
+
+  @IsNotEmpty()
+  @IsString()
+  description!: string
+
+  @IsNotEmpty()
+  @IsNumber()
+  price!: bigint
 }
 
 export type OutputCreateProduct = Either<IError, IProductEntity>

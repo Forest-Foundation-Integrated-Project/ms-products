@@ -4,6 +4,8 @@ import { IError } from "../../4-framework/shared/iError"
 
 export interface InputCreateProductDto {
   name: string
+  description: string
+  price: bigint
 }
 
 export interface InputViewProductDto {

@@ -14,7 +14,9 @@ export class CreateProductUseCase implements IUseCase<InputCreateProductDto, Out
   async exec(input: InputCreateProductDto): Promise<OutputCreateProductDto> {
     try {
       const productResult = ProductEntity.create({
-        name: input.name
+        name: input.name,
+        description: input.description,
+        price: input.price
       })
 
       if (productResult.isLeft()) {
