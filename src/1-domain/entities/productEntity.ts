@@ -7,6 +7,10 @@ import { AbstractEntity } from './abstractEntity'
 export interface IProductEntity {
   product_id?: string
   name: string
+  description: string
+  seller_id?: string
+  price: bigint
+  tag_id?: string
   createdAt?: Date
   updatedAt?: Date
 }
@@ -16,6 +20,8 @@ export class ProductEntity extends AbstractEntity<IProductEntity> {
     const product = new ProductEntity({
       ...props,
       product_id: randomUUID(),
+      seller_id: randomUUID(),
+      tag_id: randomUUID()
     })
 
     return right(product)
