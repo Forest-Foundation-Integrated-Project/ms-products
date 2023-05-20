@@ -5,7 +5,7 @@ import { IError } from "../../4-framework/shared/iError"
 export interface InputCreateProductDto {
   name: string
   description: string
-  price: bigint
+  price_cents: bigint
 }
 
 export interface InputViewProductDto {
@@ -21,7 +21,7 @@ export interface InputUpdateProductDto {
   name?: string
   description?: string
   seller_id?: string
-  price?: bigint
+  price_cents?: bigint
   tag_id?: string
 }
 

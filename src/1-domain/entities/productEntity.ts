@@ -9,7 +9,7 @@ export interface IProductEntity {
   name: string
   description: string
   seller_id?: string
-  price: bigint
+  price_cents: bigint
   tag_id?: string
   createdAt?: Date
   updatedAt?: Date

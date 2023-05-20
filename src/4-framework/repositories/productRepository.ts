@@ -14,7 +14,7 @@ export class ProductRepository implements IProductRepository {
       name: productEntity.name,
       description: productEntity.description,
       seller_id: productEntity.seller_id,
-      price: productEntity.price,
+      price_cents: productEntity.price_cents,
       tag_id: productEntity.tag_id
     })
 
@@ -40,7 +40,7 @@ export class ProductRepository implements IProductRepository {
       { name: productEntity.name,
         description: productEntity.description,
         seller_id: productEntity.seller_id,
-        price: productEntity.price,
+        price_cents: productEntity.price_cents,
         tag_id: productEntity.tag_id},
       {where: {product_id: productEntity.product_id}}
       )

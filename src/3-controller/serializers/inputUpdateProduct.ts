@@ -24,7 +24,7 @@ export class InputUpdateProduct extends Validatable<InputUpdateProduct> {
 
   @IsOptional()
   @IsNumber()
-  price?: bigint
+  price_cents?: bigint
 
   @IsOptional()
   @IsString()

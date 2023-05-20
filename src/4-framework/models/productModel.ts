@@ -23,7 +23,7 @@ ProductModel.init(
       type: DataTypes.UUIDV4,
       allowNull: false,
     },
-    price: {
+    price_cents: {
       type: DataTypes.BIGINT,
       allowNull: false,
     },

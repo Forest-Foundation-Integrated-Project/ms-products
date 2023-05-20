@@ -16,7 +16,7 @@ export class CreateProductUseCase implements IUseCase<InputCreateProductDto, Out
       const productResult = ProductEntity.create({
         name: input.name,
         description: input.description,
-        price: input.price
+        price_cents: input.price_cents
       })
 
       if (productResult.isLeft()) {

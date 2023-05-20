@@ -17,7 +17,7 @@ export class UpdateProductUseCase implements IUseCase<InputUpdateProductDto, Out
         name: input.name,
         description: input.description,
         seller_id: input.seller_id,
-        price: input.price,
+        price_cents: input.price_cents,
         tag_id: input.tag_id
       })
 

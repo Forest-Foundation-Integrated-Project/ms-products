@@ -16,7 +16,7 @@ export class InputCreateProduct extends Validatable<InputCreateProduct> {
 
   @IsNotEmpty()
   @IsNumber()
-  price!: bigint
+  price_cents!: bigint
 }
 
 export type OutputCreateProduct = Either<IError, IProductEntity>
