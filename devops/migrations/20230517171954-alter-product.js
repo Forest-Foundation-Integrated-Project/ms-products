@@ -10,7 +10,7 @@ module.exports = {
       type: Sequelize.UUID,
       allowNull: false
     });
-    await queryInterface.addColumn('products', 'price',{
+    await queryInterface.addColumn('products', 'price_cents',{
       type: Sequelize.BIGINT,
       allowNull: false
     });
