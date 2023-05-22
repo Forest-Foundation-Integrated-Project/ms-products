@@ -24,7 +24,7 @@ custom:
     external:
       - pg-native
   serviceName: products
-  contextPath: api/v1/${self:custom.serviceName}
+  contextPath: ${self:custom.serviceName}
   baseApi: ${self:custom.contextPath}
   funcDir: src/4-framework/functions
 functions:
