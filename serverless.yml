@@ -10,6 +10,8 @@ provider:
   apiGateway:
     restApiId: 411z282v69
     restApiRootResourceId: 4efcqfttn0
+    restApiResources:
+      v1: cmuvzg
   environment:
     DB_HOST: ${env:DB_HOST, ssm:/ifsp/infra/EC2-PS/host}
     DB_PORT: ${env:DB_PORT, ssm:/ifsp/infra/EC2-PS/port}
@@ -18,6 +20,9 @@ provider:
     DB_PASSWORD: ${env:DB_PASSWORD, ssm:/ifsp/infra/EC2-PS/password}
 
 custom:
+  esbuild:
+    external:
+      - pg-native
   serviceName: products
   contextPath: api/v1/${self:custom.serviceName}
   baseApi: ${self:custom.contextPath}
