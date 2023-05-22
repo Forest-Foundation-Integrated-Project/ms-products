@@ -46,6 +46,15 @@ functions:
           cors:
             origin: '*'
             headers: '*'
+    viewAllProduct:
+      handler: ${self:custom.funcDir}/viewAllProduct.handler
+      events:
+      - http:
+          path: ${self:custom.baseApi}/
+          method: get
+          cors:
+            origin: '*'
+            headers: '*'
   removeProduct:
     handler: ${self:custom.funcDir}/removeProduct.handler
     events:

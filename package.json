@@ -22,5 +22,9 @@
     "reflect-metadata": "^0.1.13",
     "sequelize": "^6.30.0",
     "yarn": "^1.22.19"
+  },
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
   }
 }

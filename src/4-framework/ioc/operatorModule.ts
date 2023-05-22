@@ -3,10 +3,12 @@ import { CreateProductOperator } from '../../3-controller/operators/createProduc
 import { ViewProductOperator } from '../../3-controller/operators/viewProductOperator'
 import { RemoveProductOperator } from '../../3-controller/operators/removeProductOperator'
 import { UpdateProductOperator } from '../../3-controller/operators/updateProductOperator'
+import { ViewAllProductOperator } from'../../3-controller/operators/viewAllProductOperator'
 
 export const OperatorModule = new ContainerModule((bind: interfaces.Bind) => {
   bind(CreateProductOperator).toSelf()
   bind(ViewProductOperator).toSelf()
+  bind(ViewAllProductOperator).toSelf()
   bind(RemoveProductOperator).toSelf()
   bind(UpdateProductOperator).toSelf()
 })

@@ -49,4 +49,11 @@ export class ProductRepository implements IProductRepository {
 
     return updateResponse?.dataValues
   }
-}
+
+  async viewAll(): Promise<IProductEntity> {
+    const viewAllResponse: any[] = await this.productModel.findAll();
+
+    return viewAllResponse?
+  }
+
+} 

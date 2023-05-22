@@ -12,6 +12,10 @@ export interface InputViewProductDto {
   product_id: string
 }
 
+export interface InputViewAllProductDto {
+  product_id: string
+}
+
 export interface InputRemoveProductDto {
   product_id: string
 }
@@ -25,7 +29,10 @@ export interface InputUpdateProductDto {
   tag_id?: string
 }
 
+
+
 export type OutputCreateProductDto = Either<IError, IProductEntity>
 export type OutputViewProductDto = Either<IError, IProductEntity>
+export type OutputViewAllProductDto = Either<IError, IProductEntity>
 export type OutputRemoveProductDto = Either<IError, boolean>
 export type OutputUpdateProductDto = Either<IError, IProductEntity>
