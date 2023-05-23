@@ -33,6 +33,6 @@ export interface InputUpdateProductDto {
 
 export type OutputCreateProductDto = Either<IError, IProductEntity>
 export type OutputViewProductDto = Either<IError, IProductEntity>
-export type OutputViewAllProductDto = Either<IError, IProductEntity>
+export type OutputViewAllProductDto = Either<IError, IProductEntity[]>
 export type OutputRemoveProductDto = Either<IError, boolean>
 export type OutputUpdateProductDto = Either<IError, IProductEntity>

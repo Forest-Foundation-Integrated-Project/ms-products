@@ -1,18 +1,18 @@
 import { injectable, inject } from 'inversify'
-import { ViewProductUseCase } from '../../2-business/useCases/viewProductUseCase'
+import { ViewAllProductUseCase } from '../../2-business/useCases/viewAllProductUseCase'
 
 import { left, right } from '../../4-framework/shared/either'
-import { InputViewProduct, OutputViewProduct } from '../serializers/inputViewProduct'
+import {  OutputViewAllProduct } from '../serializers/inputViewAllProduct'
 import { AbstractOperator } from './abstractOperator'
 
 @injectable()
-export class ViewAllProductOperator extends AbstractOperator<InputViewProduct, OutputViewProduct> {
-  public constructor(@inject(ViewProductUseCase) private viewProductUseCase: ViewProductUseCase) {
+export class ViewAllProductOperator extends AbstractOperator<undefined, OutputViewAllProduct> {
+  public constructor(@inject(ViewAllProductUseCase) private viewAllProductUseCase: ViewAllProductUseCase) {
     super()
   }
 
-  protected async run(input: InputViewProduct): Promise<OutputViewProduct> {
-    const result = await this.viewProductUseCase.exec(input)
+  protected async run(): Promise<OutputViewAllProduct> {
+    const result = await this.viewAllProductUseCase.exec()
 
     if (result.isLeft()) {
       return left(result.value)

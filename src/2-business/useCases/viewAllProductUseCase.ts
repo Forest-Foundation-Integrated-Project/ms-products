@@ -11,11 +11,11 @@ export class ViewAllProductUseCase implements IUseCase<InputViewAllProductDto, O
   
   constructor(@inject(IProductRepositoryToken) private productRepository: IProductRepository) {}
 
-  async exec(input: InputViewAllProductDto): Promise<OutputViewAllProductDto> {
+  async exec(): Promise<OutputViewAllProductDto> {
     try {
       const product = await this.productRepository.viewAll();
 
-      return right(product)
+      return right(product);
     } catch (error) {
       return left(ProductViewingFailed)
     }
