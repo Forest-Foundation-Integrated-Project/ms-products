@@ -3,6 +3,8 @@ import { IProductRepository } from '../../2-business/repositories/iProductReposi
 import { ProductModel } from '../models/productModel'
 import { IProductEntity } from '../../1-domain/entities/productEntity'
 import { InputUpdateProductDto } from '../../2-business/dto/productDto'
+import { isNotEmpty } from 'class-validator'
+import { Sequelize } from 'sequelize/types/sequelize'
 
 @injectable()
 export class ProductRepository implements IProductRepository {
@@ -50,9 +52,21 @@ export class ProductRepository implements IProductRepository {
     return updateResponse?.dataValues
   }
 
-  async viewAll(): Promise<IProductEntity[]> {
-    const viewAllResponse: any[] = await this.productModel.findAll();
-
+  async viewAll(filter_by?: string): Promise<IProductEntity[]> {
+    
+    const Sequelize = require('sequelize');
+    const Op = Sequelize.Op;
+    
+    const viewAllResponse: any[] = await this.productModel.findAll(
+      {
+        where: {
+          name: {
+            [Op.like]: `%${filter_by}%`
+          }
+        }
+      }
+    )
+    
     return viewAllResponse
   }
 }

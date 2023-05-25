@@ -50,7 +50,7 @@ functions:
     handler: ${self:custom.funcDir}/viewAllProduct.handler
     events:
       - http:
-          path: ${self:custom.baseApi}/
+          path: ${self:custom.baseApi}/ 
           method: get
           cors:
             origin: '*'

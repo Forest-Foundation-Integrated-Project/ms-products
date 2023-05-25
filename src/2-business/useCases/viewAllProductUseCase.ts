@@ -8,12 +8,11 @@ import { IProductRepository, IProductRepositoryToken } from '../repositories/iPr
 
 @injectable()
 export class ViewAllProductUseCase implements IUseCase<InputViewAllProductDto, OutputViewAllProductDto> {
-  
-  constructor(@inject(IProductRepositoryToken) private productRepository: IProductRepository) {}
+  public constructor(@inject(IProductRepositoryToken) private productRepository: IProductRepository) {}
 
-  async exec(): Promise<OutputViewAllProductDto> {
+  async exec(input: InputViewAllProductDto): Promise<OutputViewAllProductDto> {
     try {
-      const product = await this.productRepository.viewAll();
+      const product = await this.productRepository.viewAll(/*input?.filter_by/*, input.per_page*/);
 
       return right(product);
     } catch (error) {

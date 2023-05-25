@@ -9,15 +9,17 @@ export interface InputCreateProductDto {
 }
 
 export interface InputViewProductDto {
-  product_id: string
+  //product_id: string
 }
 
 export interface InputViewAllProductDto {
-  product_id: string
+  //filter_by?: string
+  
 }
 
 export interface InputRemoveProductDto {
   product_id: string
+  
 }
 
 export interface InputUpdateProductDto {

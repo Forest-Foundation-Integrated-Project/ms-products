@@ -14,7 +14,7 @@ export class ViewProductUseCase implements IUseCase<InputViewProductDto, OutputV
     try {
       const product = await this.productRepository.view(input.product_id)
 
-      return right(product)
+      return right(product);
     } catch (error) {
       return left(ProductViewingFailed)
     }
