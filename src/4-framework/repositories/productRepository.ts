@@ -52,20 +52,25 @@ export class ProductRepository implements IProductRepository {
     return updateResponse?.dataValues
   }
 
-  async viewAll(filter_by?: string): Promise<IProductEntity[]> {
+  async viewAll(name?: string): Promise<IProductEntity[]> {
     
     const Sequelize = require('sequelize');
     const Op = Sequelize.Op;
+    let viewAllResponse: any[];
     
-    const viewAllResponse: any[] = await this.productModel.findAll(
-      {
-        where: {
-          name: {
-            [Op.like]: `%${filter_by}%`
+    if(name != null) {
+      viewAllResponse = await this.productModel.findAll(
+        {
+          where: {
+            name: {
+              [Op.like]: `%${name}%`
+            }
           }
         }
-      }
-    )
+      );
+    }
+    else 
+       viewAllResponse = await this.productModel.findAll();
     
     return viewAllResponse
   }

@@ -9,11 +9,11 @@ export interface InputCreateProductDto {
 }
 
 export interface InputViewProductDto {
-  //product_id: string
+  product_id: string
 }
 
 export interface InputViewAllProductDto {
-  //filter_by?: string
+  name?: string
   
 }
 

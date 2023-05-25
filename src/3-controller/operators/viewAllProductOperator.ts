@@ -12,7 +12,7 @@ export class ViewAllProductOperator extends AbstractOperator<InputViewAllProduct
     super()
   }
 
-  protected async run(input: InputViewAllProduct): Promise<OutputViewAllProduct> {
+  protected async run(input?: InputViewAllProduct): Promise<OutputViewAllProduct> {
     const result = await this.viewAllProductUseCase.exec(input)
 
     if (result.isLeft()) {

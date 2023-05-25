@@ -6,8 +6,8 @@ import { Validatable } from './abstractValidatable'
 import { IProductEntity } from '../../1-domain/entities/productEntity'
 
 export class InputViewAllProduct extends Validatable<InputViewAllProduct> {
-  /*@IsString()
-  filter_by?: string*/
+  
+  name?: string
 }
 
 export type OutputViewAllProduct = Either<IError, IProductEntity[]>

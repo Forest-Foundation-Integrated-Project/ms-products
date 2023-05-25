@@ -9,23 +9,19 @@ import { InputViewAllProduct } from '../../3-controller/serializers/inputViewAll
 
 export const handler = httpHandler(async (event: APIGatewayProxyEvent, context: Context) => {
 
-  const { queryStringParameters: filter_by } = event;
+  const { queryStringParameters: queryParams } = event;
   
-  const { queryStringParameters: per_page } = event;
-  const { queryStringParameters: page } = event;
-
-
   context.callbackWaitsForEmptyEventLoop = false
-
     const operator = container.get(ViewAllProductOperator)
-    
-    let body = filter_by?.pathParameters as Object
+    const params = {
+      name: queryParams?.name
+    }
 
-    const input = new InputViewAllProduct(body)
+    const input = new InputViewAllProduct(params)
     const result = await operator.exec(input)
   
     if (result.isLeft()) {
       return httpResponse.badRequest(result.value)
     }
-  return httpResponse.ok( result )
+  return httpResponse.ok(result)
 })
