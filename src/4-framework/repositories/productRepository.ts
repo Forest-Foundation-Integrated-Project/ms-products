@@ -52,26 +52,35 @@ export class ProductRepository implements IProductRepository {
     return updateResponse?.dataValues
   }
 
-  async viewAll(name?: string): Promise<IProductEntity[]> {
+  async viewAll(name?: string, created?: string): Promise<IProductEntity[]> {
     
     const Sequelize = require('sequelize');
     const Op = Sequelize.Op;
     let viewAllResponse: any[];
-    
+
+    created == null? created = 'ASC' : created = created;
+  
     if(name != null) {
       viewAllResponse = await this.productModel.findAll(
         {
           where: {
             name: {
               [Op.like]: `%${name}%`
-            }
-          }
-        }
+            },
+          },
+          order: [
+            ['createdAt', `${created}`]
+          ]
+        }    
       );
     }
-    else 
-       viewAllResponse = await this.productModel.findAll();
-    
-    return viewAllResponse
+    else {
+        viewAllResponse = await this.productModel.findAll({
+          order: [
+            [ 'createdAt', `${created}`]
+          ]
+        });
+    }
+    return viewAllResponse;
   }
 }

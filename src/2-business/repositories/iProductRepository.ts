@@ -8,5 +8,5 @@ export interface IProductRepository {
   view(product_id: string): Promise<IProductEntity>
   remove(product_id: string): Promise<boolean>
   update(productEntity: InputUpdateProductDto): Promise<IProductEntity>
-  viewAll(name?: string): Promise<IProductEntity[]>
+  viewAll(name?: string, createdAt?: string): Promise<IProductEntity[]>
 }

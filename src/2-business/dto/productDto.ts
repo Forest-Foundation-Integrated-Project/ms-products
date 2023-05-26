@@ -14,6 +14,7 @@ export interface InputViewProductDto {
 
 export interface InputViewAllProductDto {
   name?: string
+  createdAt?: string
   
 }
 
@@ -30,7 +31,6 @@ export interface InputUpdateProductDto {
   price_cents?: bigint
   tag_id?: string
 }
-
 
 
 export type OutputCreateProductDto = Either<IError, IProductEntity>

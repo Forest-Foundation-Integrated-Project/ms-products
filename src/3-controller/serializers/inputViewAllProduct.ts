@@ -8,6 +8,7 @@ import { IProductEntity } from '../../1-domain/entities/productEntity'
 export class InputViewAllProduct extends Validatable<InputViewAllProduct> {
   
   name?: string
+  createdAt?: string
 }
 
 export type OutputViewAllProduct = Either<IError, IProductEntity[]>
