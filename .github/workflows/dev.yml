@@ -1,4 +1,4 @@
-name: PROD
+name: DEV
 
 on:
   push:
@@ -39,4 +39,4 @@ jobs:
       - name: Serverless Deploy
         uses: ./devops/github-actions/serverless-deploy
         with:
-          stage: prod
+          stage: dev
