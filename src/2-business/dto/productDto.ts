@@ -15,12 +15,14 @@ export interface InputViewProductDto {
 export interface InputViewAllProductDto {
   name?: string
   createdAt?: string
-  
+  price_cents?: string
+  per_page?: string
+  page?: string
 }
 
 export interface InputRemoveProductDto {
   product_id: string
-  
+
 }
 
 export interface InputUpdateProductDto {

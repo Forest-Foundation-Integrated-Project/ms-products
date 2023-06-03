@@ -52,14 +52,34 @@ export class ProductRepository implements IProductRepository {
     return updateResponse?.dataValues
   }
 
-  async viewAll(name?: string, created?: string): Promise<IProductEntity[]> {
-    
+  async viewAll(
+      name?: string,
+      created?: string,
+      price?: string,
+      per_page?: string,
+      page?: string
+    ): Promise<IProductEntity[]> {
+
     const Sequelize = require('sequelize');
     const Op = Sequelize.Op;
     let viewAllResponse: any[];
+    let per_pageInt;
+    let pageInt;
 
-    created == null? created = 'ASC' : created = created;
-  
+    let filterString: any = "createdAt";
+    let filterOrder: any = "ASC"
+
+    if(created != null) {
+      filterString = 'createdAt';
+      filterOrder = created;
+    } else if (price != null) {
+      filterString = 'price_cents';
+      filterOrder = price;
+    }
+
+    per_page == null? per_page : per_pageInt = parseInt(per_page);
+    page == null? page : pageInt = parseInt(page);
+
     if(name != null) {
       viewAllResponse = await this.productModel.findAll(
         {
@@ -69,16 +89,20 @@ export class ProductRepository implements IProductRepository {
             },
           },
           order: [
-            ['createdAt', `${created}`]
-          ]
-        }    
+              [filterString, filterOrder]
+        ],
+          offset: pageInt,
+          limit: per_pageInt
+        }
       );
     }
     else {
         viewAllResponse = await this.productModel.findAll({
           order: [
-            [ 'createdAt', `${created}`]
-          ]
+            [filterString, filterOrder]
+          ],
+          offset: pageInt,
+          limit: per_pageInt
         });
     }
     return viewAllResponse;

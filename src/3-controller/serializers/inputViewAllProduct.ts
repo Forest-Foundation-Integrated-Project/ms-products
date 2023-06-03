@@ -6,9 +6,12 @@ import { Validatable } from './abstractValidatable'
 import { IProductEntity } from '../../1-domain/entities/productEntity'
 
 export class InputViewAllProduct extends Validatable<InputViewAllProduct> {
-  
+
   name?: string
   createdAt?: string
+  price_cents?: string
+  per_page?: string
+  page?: string
 }
 
 export type OutputViewAllProduct = Either<IError, IProductEntity[]>
