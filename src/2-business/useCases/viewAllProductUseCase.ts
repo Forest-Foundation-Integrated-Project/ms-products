@@ -12,7 +12,11 @@ export class ViewAllProductUseCase implements IUseCase<InputViewAllProductDto, O
 
   async exec(input?: InputViewAllProductDto): Promise<OutputViewAllProductDto> {
     try {
+<<<<<<< HEAD
       const product = await this.productRepository.viewAll(input?.name, input?.createdAt);
+=======
+      const product = await this.productRepository.viewAll(input?.name);
+>>>>>>> 3ff0e94 (feat: add search by name)
 
       return right(product);
     } catch (error) {

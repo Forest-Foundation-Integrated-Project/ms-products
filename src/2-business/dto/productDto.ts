@@ -14,7 +14,10 @@ export interface InputViewProductDto {
 
 export interface InputViewAllProductDto {
   name?: string
+<<<<<<< HEAD
   createdAt?: string
+=======
+>>>>>>> 3ff0e94 (feat: add search by name)
   
 }
 
@@ -33,6 +36,10 @@ export interface InputUpdateProductDto {
 }
 
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 3ff0e94 (feat: add search by name)
 export type OutputCreateProductDto = Either<IError, IProductEntity>
 export type OutputViewProductDto = Either<IError, IProductEntity>
 export type OutputViewAllProductDto = Either<IError, IProductEntity[]>
