@@ -77,8 +77,10 @@ export class ProductRepository implements IProductRepository {
       filterOrder = price;
     }
 
-    per_page == null? per_page : per_pageInt = parseInt(per_page);
-    page == null? page : pageInt = parseInt(page);
+    per_page == null? /*per_page*/ per_pageInt = 0  : per_pageInt = parseInt(per_page);
+    page == null? /*page*/ pageInt = 0 : pageInt = parseInt(page);
+
+    const page_search = (per_pageInt * pageInt);
 
     if(name != null) {
       viewAllResponse = await this.productModel.findAll(
@@ -91,7 +93,7 @@ export class ProductRepository implements IProductRepository {
           order: [
               [filterString, filterOrder]
         ],
-          offset: pageInt,
+          offset: page_search,
           limit: per_pageInt
         }
       );
@@ -101,7 +103,7 @@ export class ProductRepository implements IProductRepository {
           order: [
             [filterString, filterOrder]
           ],
-          offset: pageInt,
+          offset: page_search,
           limit: per_pageInt
         });
     }
