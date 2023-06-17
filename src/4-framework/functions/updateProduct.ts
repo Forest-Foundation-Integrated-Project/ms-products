@@ -11,14 +11,13 @@ import { UpdateProductOperator } from '../../3-controller/operators/updateProduc
 export const handler = httpHandler(async (event: APIGatewayProxyEvent, context: Context) => {
   context.callbackWaitsForEmptyEventLoop = false
   const operator = container.get(UpdateProductOperator)
-  const path = event.pathParameters
   const body = JSON.parse(event?.body as string)
-
   const payload = {
     ...body,
-    product_id: path?.product_id
+    ...(event?.requestContext?.authorizer?.userId && {
+      userContextId: event.requestContext.authorizer.userId
+    }),
   }
-
   const input = new InputUpdateProduct(payload)
   const result = await operator.exec(input)
 

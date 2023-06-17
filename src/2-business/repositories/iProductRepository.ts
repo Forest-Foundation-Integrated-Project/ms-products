@@ -1,12 +1,12 @@
 import { IProductEntity } from "../../1-domain/entities/productEntity"
-import { InputCreateProductDto, InputUpdateProductDto } from "../dto/productDto"
+import { InputCreateProductDto, InputRemoveProductDto, InputUpdateProductDto } from "../dto/productDto"
 
 export const IProductRepositoryToken = Symbol.for('IProductRepository')
 
 export interface IProductRepository {
-  create(productEntity: InputCreateProductDto): Promise<IProductEntity>
-  view(product_id: string): Promise<IProductEntity>
-  remove(product_id: string): Promise<boolean>
+  create(productEntity: IProductEntity): Promise<IProductEntity>
+  view(productId: string): Promise<IProductEntity>
+  remove(removeProductsProps: InputRemoveProductDto): Promise<boolean>
   update(productEntity: InputUpdateProductDto): Promise<IProductEntity>
   viewAll(
     name?: string,

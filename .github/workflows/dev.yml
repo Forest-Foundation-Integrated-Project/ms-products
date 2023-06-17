@@ -1,4 +1,4 @@
-name: PROD
+name: DEV
 
 on:
   push:
@@ -30,11 +30,6 @@ jobs:
         with:
           aws-region: us-east-1
           role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME }}
-
-      - name: Migrate Sequelize
-        uses: ./devops/github-actions/migrate-sequelize
-        with:
-          db-name: campus_hub
 
       - name: Serverless Deploy
         uses: ./devops/github-actions/serverless-deploy

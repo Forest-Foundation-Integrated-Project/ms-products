@@ -6,6 +6,7 @@ import { InputCreateProductDto, OutputCreateProductDto } from '../dto/productDto
 import { ProductCreationFailed } from '../module/errors/products'
 import { ProductEntity } from '../../1-domain/entities/productEntity'
 import { IProductRepository, IProductRepositoryToken } from '../repositories/iProductRepository'
+import { UserIdentityCannotBeValidated } from '../module/errors/users'
 
 @injectable()
 export class CreateProductUseCase implements IUseCase<InputCreateProductDto, OutputCreateProductDto> {
@@ -13,18 +14,20 @@ export class CreateProductUseCase implements IUseCase<InputCreateProductDto, Out
 
   async exec(input: InputCreateProductDto): Promise<OutputCreateProductDto> {
     try {
-      const productResult = ProductEntity.create({
-        name: input.name,
-        description: input.description,
-        price_cents: input.price_cents
-      })
+      console.log('aqui input ', input)
+      const productResult = ProductEntity.create(input)
+
+      if (input.sellerId !== input.userContextId) {
+        return left(UserIdentityCannotBeValidated)
+      }
+
 
       if (productResult.isLeft()) {
         return left(ProductCreationFailed)
       }
 
       const product = await this.productRepository.create(productResult.value.export())
-
+      console.log('CreateProductUseCase::product ? ', product)
       return right(product)
     } catch (error) {
       return left(ProductCreationFailed)

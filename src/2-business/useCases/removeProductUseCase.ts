@@ -12,10 +12,10 @@ export class RemoveProductUseCase implements IUseCase<InputRemoveProductDto, Out
 
   async exec(input: InputRemoveProductDto): Promise<OutputRemoveProductDto> {
     try {
-      const productResult = await this.productRepository.remove(input.product_id)
-      
+      const productResult = await this.productRepository.remove(input)
+
       if (!productResult) return left (ProductNotFound)
-      
+
       return right(productResult)
     } catch (error) {
       return left(ProductRemovalFailed)

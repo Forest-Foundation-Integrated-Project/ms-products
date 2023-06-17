@@ -5,6 +5,7 @@ import { IUseCase } from './iUseCase'
 import { ProductNotFound, ProductUpdateFailed } from '../module/errors/products'
 import { IProductRepository, IProductRepositoryToken } from '../repositories/iProductRepository'
 import { InputUpdateProductDto, OutputUpdateProductDto } from '../dto/productDto'
+import { UserIdentityCannotBeValidated } from '../module/errors/users'
 
 @injectable()
 export class UpdateProductUseCase implements IUseCase<InputUpdateProductDto, OutputUpdateProductDto> {
@@ -12,19 +13,16 @@ export class UpdateProductUseCase implements IUseCase<InputUpdateProductDto, Out
 
   async exec(input: InputUpdateProductDto): Promise<OutputUpdateProductDto> {
     try {
-      const product = await this.productRepository.update({
-        product_id: input.product_id,
-        name: input.name,
-        description: input.description,
-        seller_id: input.seller_id,
-        price_cents: input.price_cents,
-        tag_id: input.tag_id
-      })
+      if (input.sellerId !== input.userContextId) {
+        return left(UserIdentityCannotBeValidated)
+      }
 
+      const product = await this.productRepository.update(input)
       if (!product) return left (ProductNotFound)
 
       return right(product)
     } catch (error) {
+      console.log('deu ruim ', error)
       return left(ProductUpdateFailed)
     }
   }

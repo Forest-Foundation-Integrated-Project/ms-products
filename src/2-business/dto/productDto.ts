@@ -3,13 +3,19 @@ import { Either } from "../../4-framework/shared/either"
 import { IError } from "../../4-framework/shared/iError"
 
 export interface InputCreateProductDto {
-  name: string
+  userContextId: string
+  title: string
   description: string
-  price_cents: bigint
+  priceCents: bigint
+  tagId?: string
+  sellerId: string,
+  seller: {
+    name: string
+  }
 }
 
 export interface InputViewProductDto {
-  product_id: string
+  productId: string
 }
 
 export interface InputViewAllProductDto {
@@ -21,22 +27,24 @@ export interface InputViewAllProductDto {
 }
 
 export interface InputRemoveProductDto {
-  product_id: string
-
+  // userContextId: string
+  productId: string
 }
 
 export interface InputUpdateProductDto {
-  product_id: string
-  name?: string
+  userContextId: string
+  productId: string
+  title?: string
   description?: string
-  seller_id?: string
-  price_cents?: bigint
-  tag_id?: string
+  sellerId?: string
+  priceCents?: bigint
+  tagId?: string
 }
 
+type IResponseProduct = Either<IError, IProductEntity>
 
-export type OutputCreateProductDto = Either<IError, IProductEntity>
-export type OutputViewProductDto = Either<IError, IProductEntity>
+export type OutputCreateProductDto = IResponseProduct
+export type OutputViewProductDto = IResponseProduct
 export type OutputViewAllProductDto = Either<IError, IProductEntity[]>
 export type OutputRemoveProductDto = Either<IError, boolean>
-export type OutputUpdateProductDto = Either<IError, IProductEntity>
+export type OutputUpdateProductDto = IResponseProduct

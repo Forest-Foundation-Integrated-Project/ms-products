@@ -12,7 +12,7 @@ export class ViewProductUseCase implements IUseCase<InputViewProductDto, OutputV
 
   async exec(input: InputViewProductDto): Promise<OutputViewProductDto> {
     try {
-      const product = await this.productRepository.view(input.product_id)
+      const product = await this.productRepository.view(input.productId)
 
       return right(product);
     } catch (error) {

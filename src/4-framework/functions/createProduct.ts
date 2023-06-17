@@ -13,7 +13,13 @@ export const handler = httpHandler(async (event: APIGatewayProxyEvent, context: 
   const operator = container.get(CreateProductOperator)
   const body = JSON.parse(event?.body as string)
 
-  const input = new InputCreateProduct(body)
+  const payload = {
+    ...body,
+    ...(event?.requestContext?.authorizer?.userId && {
+      userContextId: event.requestContext.authorizer.userId
+    }),
+  }
+  const input = new InputCreateProduct(payload)
   const result = await operator.exec(input)
 
   if (result.isLeft()) {
