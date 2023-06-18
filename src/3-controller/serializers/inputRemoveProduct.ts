@@ -7,7 +7,11 @@ import { Validatable } from './abstractValidatable'
 export class InputRemoveProduct extends Validatable<InputRemoveProduct> {
   @IsNotEmpty()
   @IsUUID()
-  product_id!: string
+  productId!: string
+
+  @IsNotEmpty()
+  @IsUUID()
+  userContextId!: string
 }
 
 export type OutputRemoveProduct = Either<IError, boolean>

@@ -11,9 +11,15 @@ import { RemoveProductOperator } from '../../3-controller/operators/removeProduc
 export const handler = httpHandler(async (event: APIGatewayProxyEvent, context: Context) => {
   context.callbackWaitsForEmptyEventLoop = false
   const operator = container.get(RemoveProductOperator)
-  const body = event.pathParameters
+  const body = JSON.parse(event?.body as string)
+  const payload = {
+    ...body,
+    ...(event?.requestContext?.authorizer?.userId && {
+      userContextId: event.requestContext.authorizer.userId
+    }),
+  }
 
-  const input = new InputRemoveProduct(body as Object)
+  const input = new InputRemoveProduct(payload)
   const result = await operator.exec(input)
 
   if (result.isLeft()) {

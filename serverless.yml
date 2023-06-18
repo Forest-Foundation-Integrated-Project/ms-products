@@ -12,21 +12,28 @@ provider:
     restApiRootResourceId: 4efcqfttn0
     restApiResources:
       v1: cmuvzg
-  environment:
-    DB_HOST: ${env:DB_HOST, ssm:/ifsp/infra/EC2-PS/host}
-    DB_PORT: ${env:DB_PORT, ssm:/ifsp/infra/EC2-PS/port}
-    DB_NAME: ${env:DB_NAME, ssm:/ifsp/infra/EC2-PS/dbname}
-    DB_USER: ${env:DB_USER, ssm:/ifsp/infra/EC2-PS/username}
-    DB_PASSWORD: ${env:DB_PASSWORD, ssm:/ifsp/infra/EC2-PS/password}
+  iam:
+    role:
+      statements:
+        - Effect: Allow
+          Action:
+            - dynamodb:DescribeTable
+            - dynamodb:Query
+            - dynamodb:CreateTable
+            - dynamodb:GetItem
+            - dynamodb:PutItem
+            - dynamodb:UpdateItem
+            - dynamodb:DeleteItem
+          Resource: 'arn:aws:dynamodb:${aws:region}:${aws:accountId}:*'
 
 custom:
-  esbuild:
-    external:
-      - pg-native
   serviceName: products
   contextPath: ${self:custom.serviceName}
   baseApi: ${self:custom.contextPath}
   funcDir: src/4-framework/functions
+  ms-account-authorizer:
+    type: TOKEN
+    authorizerId: ${ssm:/alumnus/ms-auth/authorizer-id}
 functions:
   createProduct:
     handler: ${self:custom.funcDir}/createProduct.handler
@@ -34,6 +41,7 @@ functions:
       - http:
           path: ${self:custom.baseApi}/
           method: post
+          authorizer: ${self:custom.ms-account-authorizer}
           cors:
             origin: '*'
             headers: '*'
@@ -41,8 +49,19 @@ functions:
     handler: ${self:custom.funcDir}/viewProduct.handler
     events:
       - http:
-          path: ${self:custom.baseApi}/{product_id}
+          path: ${self:custom.baseApi}/{productId}
           method: get
+          authorizer: ${self:custom.ms-account-authorizer}
+          cors:
+            origin: '*'
+            headers: '*'
+  viewAllProduct:
+    handler: ${self:custom.funcDir}/viewAllProduct.handler
+    events:
+      - http:
+          path: ${self:custom.baseApi}/
+          method: get
+          authorizer: ${self:custom.ms-account-authorizer}
           cors:
             origin: '*'
             headers: '*'
@@ -50,8 +69,9 @@ functions:
     handler: ${self:custom.funcDir}/removeProduct.handler
     events:
       - http:
-          path: ${self:custom.baseApi}/{product_id}
+          path: ${self:custom.baseApi}
           method: delete
+          authorizer: ${self:custom.ms-account-authorizer}
           cors:
             origin: '*'
             headers: '*'
@@ -59,14 +79,13 @@ functions:
     handler: ${self:custom.funcDir}/updateProduct.handler
     events:
       - http:
-          path: ${self:custom.baseApi}/{product_id}
+          path: ${self:custom.baseApi}
           method: put
+          authorizer: ${self:custom.ms-account-authorizer}
           cors:
             origin: '*'
             headers: '*'
-            
 
 plugins:
   - serverless-esbuild
   - serverless-offline
-  - serverless-dotenv-plugin

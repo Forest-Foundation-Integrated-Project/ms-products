@@ -27,3 +27,9 @@ export const ProductNotFound = {
   message: 'Product not found',
   shortMessage: 'productNotFound'
 }
+
+export const ProductBelongsToAnotherUser = {
+  code: 'PBU-001',
+  message: 'Product belongs to another user.',
+  shortMessage: 'ProductBelongsToAnotherUser'
+}

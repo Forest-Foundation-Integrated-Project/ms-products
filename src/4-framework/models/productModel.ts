@@ -1,43 +1,59 @@
-import { DataTypes, Model } from 'sequelize'
+const dynamoose = require("dynamoose");
+import { SchemaDefinition } from 'dynamoose/dist/Schema'
 
-import { sequelize } from '../utility/database'
-
-export class ProductModel extends Model {}
-
-ProductModel.init(
-  {
-    product_id: {
-      type: DataTypes.UUIDV4,
-      allowNull: false,
-      primaryKey: true,
-    },
-    name: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    description: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    seller_id: {
-      type: DataTypes.UUIDV4,
-      allowNull: false,
-    },
-    price_cents: {
-      type: DataTypes.BIGINT,
-      allowNull: false,
-    },
-    tag_id: {
-      type: DataTypes.UUIDV4,
-      allowNull: false,
+const schema: SchemaDefinition = {
+  pk: {
+    type: String,
+    hashKey: true,
+    required: true,
+    index: {
+      name: 'productsCreatedAt',
+      type: 'global',
+      rangeKey: 'createdAt',
+    }
+  },
+  sk: {
+    type: String,
+    rangeKey: true,
+    required: true,
+  },
+  productId: {
+    type: String,
+    required: true
+  },
+  title: {
+    type: String,
+    required: true
+  },
+  description: {
+    type: String,
+    required: true,
+  },
+  priceCents: {
+    type: Number,
+    required: true
+  },
+  tagId: {
+    type: String,
+    required: false
+  },
+  sellerId: {
+    type: String,
+    required: true,
+    index: {
+      name: 'userProductsIndex',
+      type: 'global'
     },
   },
-  {
-    sequelize,
-    modelName: 'products',
-    timestamps: true,
-    freezeTableName: true,
+  seller: {
+    type: Object,
+    schema: {
+      name: {
+        type: String,
+        required: true
+      }
+    }
   }
-)
+}
 
-ProductModel.sync()
+export const ProductModel = dynamoose.model('Products', new dynamoose.Schema(schema, { timestamps: true }));
