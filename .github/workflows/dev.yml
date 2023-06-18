@@ -34,4 +34,4 @@ jobs:
       - name: Serverless Deploy
         uses: ./devops/github-actions/serverless-deploy
         with:
-          stage: prod
+          stage: dev
