@@ -12,7 +12,6 @@ export const handler = httpHandler(async (event: APIGatewayProxyEvent, context: 
   context.callbackWaitsForEmptyEventLoop = false
   const operator = container.get(CreateProductOperator)
   const body = JSON.parse(event?.body as string)
-
   const payload = {
     ...body,
     ...(event?.requestContext?.authorizer?.userId && {

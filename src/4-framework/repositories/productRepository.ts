@@ -3,11 +3,16 @@ import * as dynamoose from 'dynamoose'
 
 import { ProductModel } from "../models/productModel"
 import { IProductEntity } from "../../1-domain/entities/productEntity"
-import { IProductRepository } from "../../2-business/repositories/iProductRepository"
+import { IProductRepository, ViewAllProductsResponse } from "../../2-business/repositories/iProductRepository"
 import { InputRemoveProductDto, InputUpdateProductDto } from "../../2-business/dto/productDto"
+import { FilterBy, InputViewAllProductDto } from "../../2-business/dto/viewAllProductsDto"
 
 enum Prefixes {
   products = 'PRODUCTS'
+}
+
+enum IndexPrefixes {
+  PRODUCTS_CREATED_AT = 'productsCreatedAt'
 }
 
 @injectable()
@@ -25,8 +30,8 @@ export class ProductRepository implements IProductRepository {
       ...input,
     })
 
-    delete result.pk
-    delete result.sk
+    delete result?.pk
+    delete result?.sk
 
     return result
   }
@@ -38,8 +43,8 @@ export class ProductRepository implements IProductRepository {
     }).exec()
     const result = response.toJSON()[0]
 
-    delete result.pk
-    delete result.sk
+    delete result?.pk
+    delete result?.sk
 
     return result
   }
@@ -69,10 +74,69 @@ export class ProductRepository implements IProductRepository {
     const response = await this.productModel.delete({
       pk: Prefixes.products,
       sk: removeProductsProps.productId,
-    }, {
-      condition: condition
-    })
+    },
+      {
+        condition
+      })
 
     return response
+  }
+
+  async viewAll(props: InputViewAllProductDto): Promise<ViewAllProductsResponse> {
+    const queryProps = {
+      pk: Prefixes.products,
+    }
+
+    const sortOrder = props.sort ?? 'descending'
+
+    const productsQuery = this.productModel
+      .query(queryProps)
+      .using(IndexPrefixes.PRODUCTS_CREATED_AT)
+      .sort(sortOrder)
+
+    if (props.lastKey) {
+      productsQuery.startAt({ pk: Prefixes.products, sk: props.lastKey })
+    }
+
+    if (props.where) {
+      productsQuery.where(props.where)
+        .eq(props.where === FilterBy.PRICE_CENTS ? Number(props.like) : props.like)
+    }
+
+    if (props.limit && !props.ignoreLimit) {
+      productsQuery.limit(Number(props.limit))
+    }
+
+    return productsQuery.exec().then(async (items: any) => {
+      if (items.toJSON().length < props.limit && items.lastKey) {
+        return this.viewAll({
+          ...props,
+          data: props?.data ? [...props.data, ...items.toJSON()] : items.toJSON(),
+          lastKey: JSON.stringify(items.lastKey),
+          total: items.count + props.total,
+          ignoreLimit: true,
+        })
+      }
+
+      if (items.toJSON().length > props.limit) {
+        const totalData = [...props.data!, ...items.toJSON()]
+        const dataToSend = totalData.slice(0, Number(props.limit))
+        const lastKey = totalData[totalData.length - 1]?.sk
+
+        return {
+          total: Number(props.limit),
+          limit: Number(props.limit) ?? null,
+          lastKey: items.lastKey ? items.lastKey.sk : lastKey,
+          data: dataToSend,
+        }
+      }
+
+      return {
+        total: props?.data?.length ? props.data.length : items.count,
+        limit: Number(props.limit) ?? null,
+        lastKey: items.lastKey ? items.lastKey.sk : null,
+        data: props?.data?.length ? [...props?.data, ...items.toJSON()] : items.toJSON(),
+      }
+    })
   }
 }

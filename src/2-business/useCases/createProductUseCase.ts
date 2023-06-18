@@ -14,7 +14,6 @@ export class CreateProductUseCase implements IUseCase<InputCreateProductDto, Out
 
   async exec(input: InputCreateProductDto): Promise<OutputCreateProductDto> {
     try {
-      console.log('aqui input ', input)
       const productResult = ProductEntity.create(input)
 
       if (input.sellerId !== input.userContextId) {
@@ -30,6 +29,8 @@ export class CreateProductUseCase implements IUseCase<InputCreateProductDto, Out
       console.log('CreateProductUseCase::product ? ', product)
       return right(product)
     } catch (error) {
+      console.log('CreateProductUseCase::Error => ', error)
+
       return left(ProductCreationFailed)
     }
   }

@@ -18,16 +18,8 @@ export interface InputViewProductDto {
   productId: string
 }
 
-export interface InputViewAllProductDto {
-  name?: string
-  createdAt?: string
-  price_cents?: string
-  per_page?: string
-  page?: string
-}
-
 export interface InputRemoveProductDto {
-  // userContextId: string
+  userContextId: string
   productId: string
 }
 
@@ -45,6 +37,5 @@ type IResponseProduct = Either<IError, IProductEntity>
 
 export type OutputCreateProductDto = IResponseProduct
 export type OutputViewProductDto = IResponseProduct
-export type OutputViewAllProductDto = Either<IError, IProductEntity[]>
 export type OutputRemoveProductDto = Either<IError, boolean>
 export type OutputUpdateProductDto = IResponseProduct

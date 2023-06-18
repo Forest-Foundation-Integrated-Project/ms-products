@@ -31,6 +31,9 @@ custom:
   contextPath: ${self:custom.serviceName}
   baseApi: ${self:custom.contextPath}
   funcDir: src/4-framework/functions
+  ms-account-authorizer:
+    type: TOKEN
+    authorizerId: ${ssm:/alumnus/ms-auth/authorizer-id}
 functions:
   createProduct:
     handler: ${self:custom.funcDir}/createProduct.handler
@@ -38,6 +41,7 @@ functions:
       - http:
           path: ${self:custom.baseApi}/
           method: post
+          authorizer: ${self:custom.ms-account-authorizer}
           cors:
             origin: '*'
             headers: '*'
@@ -47,6 +51,7 @@ functions:
       - http:
           path: ${self:custom.baseApi}/{productId}
           method: get
+          authorizer: ${self:custom.ms-account-authorizer}
           cors:
             origin: '*'
             headers: '*'
@@ -56,6 +61,7 @@ functions:
       - http:
           path: ${self:custom.baseApi}/
           method: get
+          authorizer: ${self:custom.ms-account-authorizer}
           cors:
             origin: '*'
             headers: '*'
@@ -63,8 +69,9 @@ functions:
     handler: ${self:custom.funcDir}/removeProduct.handler
     events:
       - http:
-          path: ${self:custom.baseApi}/{product_id}
+          path: ${self:custom.baseApi}
           method: delete
+          authorizer: ${self:custom.ms-account-authorizer}
           cors:
             origin: '*'
             headers: '*'
@@ -74,6 +81,7 @@ functions:
       - http:
           path: ${self:custom.baseApi}
           method: put
+          authorizer: ${self:custom.ms-account-authorizer}
           cors:
             origin: '*'
             headers: '*'
