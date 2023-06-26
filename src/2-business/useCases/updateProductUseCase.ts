@@ -6,10 +6,14 @@ import { ProductBelongsToAnotherUser, ProductNotFound, ProductUpdateFailed } fro
 import { UserIdentityCannotBeValidated } from '../module/errors/users'
 import { left, right } from '../../4-framework/shared/either'
 import { IUseCase } from './iUseCase'
+import { IStorageService, IStorageServiceToken } from '../services/iStorageService'
 
 @injectable()
 export class UpdateProductUseCase implements IUseCase<InputUpdateProductDto, OutputUpdateProductDto> {
-  public constructor(@inject(IProductRepositoryToken) private productRepository: IProductRepository) { }
+  public constructor(
+    @inject(IProductRepositoryToken) private productRepository: IProductRepository,
+    @inject(IStorageServiceToken) private storageService: IStorageService
+  ) { }
 
   async exec(input: InputUpdateProductDto): Promise<OutputUpdateProductDto> {
     try {
@@ -23,7 +27,19 @@ export class UpdateProductUseCase implements IUseCase<InputUpdateProductDto, Out
       if (getProductResponse.sellerId !== input.sellerId)
         return left(ProductBelongsToAnotherUser)
 
-      const updateProductResponse = await this.productRepository.update(input)
+      const imagesUrlResponse = await this.storageService.getImagesUrl({
+        productId: input.productId,
+        sellerId: input.sellerId
+      })
+
+      if (imagesUrlResponse.isLeft()) {
+        return left(ProductUpdateFailed)
+      }
+
+      const updateProductResponse = await this.productRepository.update({
+        ...input,
+        images: imagesUrlResponse.value
+      })
 
       if (!updateProductResponse) return left(ProductNotFound)
 

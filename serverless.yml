@@ -6,12 +6,11 @@ provider:
   name: aws
   runtime: nodejs18.x
   region: 'us-east-1'
+  stage: ${opt:stage, "${env:stage, 'dev'}"}
   memorySize: 512
   apiGateway:
-    restApiId: 411z282v69
-    restApiRootResourceId: 4efcqfttn0
-    restApiResources:
-      v1: cmuvzg
+    restApiId: ${ssm:/alumnus/infra/api-gateway/id}
+    restApiRootResourceId: ${ssm:/alumnus/infra/api-gateway/root-resource-id}
   iam:
     role:
       statements:
@@ -25,12 +24,26 @@ provider:
             - dynamodb:UpdateItem
             - dynamodb:DeleteItem
           Resource: 'arn:aws:dynamodb:${aws:region}:${aws:accountId}:*'
+        - Effect: 'Allow'
+          Action:
+            - 's3:*'
+          Resource: 'arn:aws:s3:::*/*'
+  environment:
+      STAGE: ${self:provider.stage}
+      IMAGES_BUCKET_NAME: ${self:custom.imagesBucketName}
 
+plugins:
+  - serverless-esbuild
+  - serverless-offline
 custom:
+  esbuild:
+    bundle: true
+    minify: false
   serviceName: products
   contextPath: ${self:custom.serviceName}
   baseApi: ${self:custom.contextPath}
   funcDir: src/4-framework/functions
+  imagesBucketName: ${self:custom.serviceName}-images-${self:provider.stage}
   ms-account-authorizer:
     type: TOKEN
     authorizerId: ${ssm:/alumnus/ms-auth/authorizer-id}
@@ -41,6 +54,16 @@ functions:
       - http:
           path: ${self:custom.baseApi}/
           method: post
+          authorizer: ${self:custom.ms-account-authorizer}
+          cors:
+            origin: '*'
+            headers: '*'
+  getSignedUploadProductImageURL:
+    handler: ${self:custom.funcDir}/getSignedUploadProductImageURL.handler
+    events:
+      - http:
+          path: ${self:custom.baseApi}/upload
+          method: get
           authorizer: ${self:custom.ms-account-authorizer}
           cors:
             origin: '*'
@@ -86,6 +109,5 @@ functions:
             origin: '*'
             headers: '*'
 
-plugins:
-  - serverless-esbuild
-  - serverless-offline
+resources:
+  - ${file(./devops/resources/s3.yml)}

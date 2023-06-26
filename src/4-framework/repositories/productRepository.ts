@@ -55,10 +55,11 @@ export class ProductRepository implements IProductRepository {
       pk: Prefixes.products,
       sk: product.productId,
     }, {
-      title: product.title,
-      description: product.description,
-      priceCents: product.priceCents,
-      tagId: product.tagId
+      ...(product?.title && { title: product.title }),
+      ...(product?.description && { description: product.description }),
+      ...(product?.priceCents && { priceCents: product.priceCents }),
+      ...(product?.tagId && { tagId: product.tagId }),
+      ...(product?.images && { images: product.images })
     }, {
       condition: condition
     })
@@ -86,7 +87,6 @@ export class ProductRepository implements IProductRepository {
     const queryProps = {
       pk: Prefixes.products,
     }
-
     const sortOrder = props.sort ?? 'descending'
 
     const productsQuery = this.productModel

@@ -30,6 +30,7 @@ export interface InputUpdateProductDto {
   description?: string
   sellerId?: string
   priceCents?: bigint
+  images?: string[]
   tagId?: string
 }
 

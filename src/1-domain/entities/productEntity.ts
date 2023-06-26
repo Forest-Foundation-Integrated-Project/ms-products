@@ -14,6 +14,7 @@ export interface IProductEntity {
   seller: {
     name: string
   }
+  images?: string[]
   createdAt?: Date
   updatedAt?: Date
 }
