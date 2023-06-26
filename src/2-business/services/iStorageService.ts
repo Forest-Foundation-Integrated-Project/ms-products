@@ -9,12 +9,12 @@ export interface IGetSignedURL {
   productId: string
 }
 
-export interface IGetFiles {
+export interface IGetImagesUrl {
   sellerId: string
   productId: string
 }
 
 export interface IStorageService {
   getSignedURL(props: IGetSignedURL): Promise<Either<IError, ISignedUrlResponse>>
-  getFiles(props: IGetFiles): Promise<Either<IError, string[]>>
+  getImagesUrl(props: IGetImagesUrl): Promise<Either<IError, string[]>>
 }

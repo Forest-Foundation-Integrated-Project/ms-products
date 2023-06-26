@@ -45,6 +45,11 @@ const schema: SchemaDefinition = {
       type: 'global'
     },
   },
+  images: {
+    type: Array,
+    schema: [String],
+    required: false
+  },
   seller: {
     type: Object,
     schema: {
