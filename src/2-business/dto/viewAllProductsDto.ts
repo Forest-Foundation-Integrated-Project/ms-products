@@ -5,19 +5,18 @@ import { SortItems, ViewAllProductsResponse } from "../repositories/iProductRepo
 
 export enum FilterBy {
   DATE = 'date',
-  PRICE_CENTS = 'priceCents'
+  PRICE_CENTS = 'priceCents',
+  TITLE = 'title'
 }
 
 export interface InputViewAllProductDto {
   sort?: SortItems
+  sellerId?: string
   where?: FilterBy
   like?: string
   limit: number
   lastKey?: string
   categoryId?: string
-  ignoreLimit?: boolean
-  total?: number
-  data?: Object[]
 }
 
 export type OutputViewAllProductDto = Either<IError, ViewAllProductsResponse>

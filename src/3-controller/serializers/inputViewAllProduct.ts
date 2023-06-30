@@ -12,6 +12,10 @@ export class InputViewAllProduct extends Validatable<InputViewAllProduct> {
   sort?: SortItems
 
   @IsOptional()
+  @IsUUID()
+  sellerId?: string
+
+  @IsOptional()
   @IsIn(Object.values(FilterBy))
   where?: FilterBy
 

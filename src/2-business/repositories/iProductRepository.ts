@@ -10,10 +10,11 @@ export enum SortItems {
 }
 
 export interface ViewAllProductsResponse {
-  total: number
+  count: number
   limit: number
-  lastKey: Object
+  lastKey?: any
   data: IProductEntity[]
+  timesQueried: number;
 }
 
 

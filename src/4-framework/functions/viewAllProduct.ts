@@ -24,5 +24,5 @@ export const handler = httpHandler(async (event: APIGatewayProxyEvent, context: 
   if (result.isLeft()) {
     return httpResponse.badRequest(result.value)
   }
-  return httpResponse.ok(result)
+  return httpResponse.ok(result.value)
 })

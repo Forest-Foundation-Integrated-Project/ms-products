@@ -6,13 +6,15 @@ import { IProductEntity } from "../../1-domain/entities/productEntity"
 import { IProductRepository, ViewAllProductsResponse } from "../../2-business/repositories/iProductRepository"
 import { InputRemoveProductDto, InputUpdateProductDto } from "../../2-business/dto/productDto"
 import { FilterBy, InputViewAllProductDto } from "../../2-business/dto/viewAllProductsDto"
+import { queryPagination } from "../utility/customPagination"
 
 enum Prefixes {
   products = 'PRODUCTS'
 }
 
 enum IndexPrefixes {
-  PRODUCTS_CREATED_AT = 'productsCreatedAt'
+  PRODUCTS_CREATED_AT = 'productsCreatedAt',
+  USER_PRODUCTS_INDEX = 'userProductsIndex'
 }
 
 @injectable()
@@ -88,55 +90,51 @@ export class ProductRepository implements IProductRepository {
       pk: Prefixes.products,
     }
     const sortOrder = props.sort ?? 'descending'
+    const startAt = props.lastKey ? JSON.parse(props.lastKey) : null
 
-    const productsQuery = this.productModel
+    let productsQuery = this.productModel
       .query(queryProps)
       .using(IndexPrefixes.PRODUCTS_CREATED_AT)
       .sort(sortOrder)
 
-    if (props.lastKey) {
-      productsQuery.startAt({ pk: Prefixes.products, sk: props.lastKey })
+    if (props.sellerId) {
+      productsQuery = this.productModel
+        .query({ sellerId: props.sellerId })
+        .using(IndexPrefixes.USER_PRODUCTS_INDEX)
+        .sort(sortOrder)
     }
 
     if (props.where) {
-      productsQuery.where(props.where)
-        .eq(props.where === FilterBy.PRICE_CENTS ? Number(props.like) : props.like)
+      switch (props.where) {
+        case FilterBy.PRICE_CENTS:
+          productsQuery.where(props.where)
+            .eq(Number(props.like))
+          break;
+        case FilterBy.TITLE:
+          productsQuery.where(props.where)
+            .contains(props.like)
+          break;
+
+        default:
+          productsQuery.where(props.where)
+            .eq(props.like)
+          break;
+      }
     }
 
-    if (props.limit && !props.ignoreLimit) {
-      productsQuery.limit(Number(props.limit))
+    if (startAt) {
+      startAt.createdAt = new Date(startAt.createdAt).getTime()
     }
 
-    return productsQuery.exec().then(async (items: any) => {
-      if (items.toJSON().length < props.limit && items.lastKey) {
-        return this.viewAll({
-          ...props,
-          data: props?.data ? [...props.data, ...items.toJSON()] : items.toJSON(),
-          lastKey: JSON.stringify(items.lastKey),
-          total: items.count + props.total,
-          ignoreLimit: true,
-        })
-      }
-
-      if (items.toJSON().length > props.limit) {
-        const totalData = [...props.data!, ...items.toJSON()]
-        const dataToSend = totalData.slice(0, Number(props.limit))
-        const lastKey = totalData[totalData.length - 1]?.sk
-
-        return {
-          total: Number(props.limit),
-          limit: Number(props.limit) ?? null,
-          lastKey: items.lastKey ? items.lastKey.sk : lastKey,
-          data: dataToSend,
-        }
-      }
-
-      return {
-        total: props?.data?.length ? props.data.length : items.count,
-        limit: Number(props.limit) ?? null,
-        lastKey: items.lastKey ? items.lastKey.sk : null,
-        data: props?.data?.length ? [...props?.data, ...items.toJSON()] : items.toJSON(),
-      }
+    const data = await queryPagination({
+      query: productsQuery,
+      data: [],
+      limit: props.limit,
+      timesQueried: 1,
+      count: 0,
+      lastKey: startAt,
     })
+
+    return data
   }
 }
