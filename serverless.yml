@@ -30,6 +30,7 @@ provider:
           Resource: 'arn:aws:s3:::*/*'
   environment:
       STAGE: ${self:provider.stage}
+      REGION: ${self:provider.region}
       IMAGES_BUCKET_NAME: ${self:custom.imagesBucketName}
 
 plugins:

@@ -14,10 +14,9 @@ import { IError } from '../shared/iError'
 @injectable()
 export class StorageService implements IStorageService {
   async getSignedURL(props: IGetSignedURL): Promise<Either<IError, ISignedUrlResponse>> {
-    const s3 = new S3Client({})
+    const s3 = new S3Client({ region: process.env.REGION })
 
     try {
-
       const ACL = 'public-read'
       const actionId = uuidv4()
       const fileExtension = '.jpg'
@@ -43,7 +42,7 @@ export class StorageService implements IStorageService {
   }
 
   async getImagesUrl(props: IGetImagesUrl): Promise<Either<IError, string[]>> {
-    const s3 = new S3Client({})
+    const s3 = new S3Client({ region: process.env.REGION })
     const baseUrl = 'https://products-images-dev.s3.amazonaws.com'
 
     try {
@@ -51,6 +50,7 @@ export class StorageService implements IStorageService {
         Bucket: process.env.IMAGES_BUCKET_NAME,
         Prefix: `${props.sellerId}/${props.productId}`,
       }
+      console.log('s3Params ', s3Params)
       const command = new ListObjectsV2Command(s3Params)
       const response = await s3.send(command)
       const imagesUrl = response.Contents?.map((file) => `${baseUrl}/${file.Key}`) || []
