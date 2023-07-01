@@ -2909,7 +2909,7 @@
     "js-yaml" "^3.14.1"
     "watchpack" "^2.0.0-beta.10"
 
-"aws-sdk@^2.1352.0", "aws-sdk@^2.1409.0", "aws-sdk@^2.814.0":
+"aws-sdk@^2.1352.0", "aws-sdk@^2.814.0":
   "integrity" "sha512-4tg4lkvqRQs/39Z/wp+WBcNwDv17zwErlwotIxkHg7kCybVD78mC0sTrjcBbRK01kOsgiS/NCImIWj6C8KsMzw=="
   "resolved" "https://registry.npmjs.org/aws-sdk/-/aws-sdk-2.1409.0.tgz"
   "version" "2.1409.0"
