@@ -2909,10 +2909,10 @@
     "js-yaml" "^3.14.1"
     "watchpack" "^2.0.0-beta.10"
 
-"aws-sdk@^2.1352.0", "aws-sdk@^2.814.0":
-  "integrity" "sha512-pt8SXXH/CDwA0qTNV1SkHhLXnIb9fk1NTutE5w/tj9u8Z5DSbHbc9bnmju1B9aoRG1VTR48/SqOyzkfquVnMCw=="
-  "resolved" "https://registry.npmjs.org/aws-sdk/-/aws-sdk-2.1404.0.tgz"
-  "version" "2.1404.0"
+"aws-sdk@^2.1352.0", "aws-sdk@^2.1409.0", "aws-sdk@^2.814.0":
+  "integrity" "sha512-4tg4lkvqRQs/39Z/wp+WBcNwDv17zwErlwotIxkHg7kCybVD78mC0sTrjcBbRK01kOsgiS/NCImIWj6C8KsMzw=="
+  "resolved" "https://registry.npmjs.org/aws-sdk/-/aws-sdk-2.1409.0.tgz"
+  "version" "2.1409.0"
   dependencies:
     "buffer" "4.9.2"
     "events" "1.1.1"
