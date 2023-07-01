@@ -1,5 +1,6 @@
 import { S3Client, PutObjectCommand, ListObjectsV2Command } from "@aws-sdk/client-s3"
 const { getSignedUrl } = require("@aws-sdk/s3-request-presigner")
+const AWS = require('aws-sdk');
 
 import { injectable } from 'inversify'
 const { v4: uuidv4 } = require('uuid')
@@ -42,7 +43,7 @@ export class StorageService implements IStorageService {
   }
 
   async getImagesUrl(props: IGetImagesUrl): Promise<Either<IError, string[]>> {
-    const s3 = new S3Client({ region: process.env.REGION })
+    const s3 = new AWS.S3();
     const baseUrl = 'https://products-images-dev.s3.amazonaws.com'
 
     try {
@@ -51,9 +52,9 @@ export class StorageService implements IStorageService {
         Prefix: `${props.sellerId}/${props.productId}`,
       }
       console.log('s3Params ', s3Params)
-      const command = new ListObjectsV2Command(s3Params)
-      const response = await s3.send(command)
-      const imagesUrl = response.Contents?.map((file) => `${baseUrl}/${file.Key}`) || []
+      const response = await s3.listObjects(s3Params).promise()
+      console.log('response ', response)
+      const imagesUrl = response.Contents?.map((file: any) => `${baseUrl}/${file.Key}`) || []
 
       return right(imagesUrl)
     } catch (error) {
