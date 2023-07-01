@@ -26,8 +26,8 @@ provider:
           Resource: 'arn:aws:dynamodb:${aws:region}:${aws:accountId}:*'
         - Effect: 'Allow'
           Action:
-            - s3:*
-          Resource: 'arn:aws:s3:::*/*'
+            - 's3:*'
+          Resource: '*'
   environment:
       STAGE: ${self:provider.stage}
       REGION: ${self:provider.region}
