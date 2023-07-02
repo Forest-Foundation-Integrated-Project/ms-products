@@ -6,7 +6,8 @@ import { IProductEntity } from "../../1-domain/entities/productEntity"
 import { IProductRepository, ViewAllProductsResponse } from "../../2-business/repositories/iProductRepository"
 import { InputRemoveProductDto, InputUpdateProductDto } from "../../2-business/dto/productDto"
 import { FilterBy, InputViewAllProductDto } from "../../2-business/dto/viewAllProductsDto"
-import { queryPagination } from "../utility/customPagination"
+import { listProductsResultMapper } from "./helpers/listProductsResultMapper"
+import { queryPagination } from "./helpers/customPagination"
 
 enum Prefixes {
   products = 'PRODUCTS'
@@ -90,7 +91,7 @@ export class ProductRepository implements IProductRepository {
       pk: Prefixes.products,
     }
     const sortOrder = props.sort ?? 'descending'
-    const startAt = props.lastKey ? JSON.parse(props.lastKey) : null
+    const startAt = props.lastKey ? JSON.parse(props.lastKey.replace(/'/g, '')) : null
 
     let productsQuery = this.productModel
       .query(queryProps)
@@ -134,6 +135,8 @@ export class ProductRepository implements IProductRepository {
       count: 0,
       lastKey: startAt,
     })
+
+    data.data = data.data.map((item: IProductEntity) => listProductsResultMapper(item))
 
     return data
   }
